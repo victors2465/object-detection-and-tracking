@@ -3,6 +3,13 @@ import numpy as np
 import argparse
 
 def load_video(video_path:str):
+    """
+    Function to load image
+    
+    Parameter(s):    video_path:str
+
+    Returns:       video: video to process
+    """
     vid = cv2.VideoCapture(video_path)
     if not vid.isOpened():
         print("Error: Could not open video capture device.")
@@ -10,6 +17,13 @@ def load_video(video_path:str):
     return vid
 
 def load_object_image(img_path:str):
+    """
+    Function to load image
+    
+    Parameter(s):    img_path:str
+
+    Returns:       object_img: image with the object of interest
+    """
     object_img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     if object_img is None:
         print(f"Error: Could not load image {img_path}")
@@ -18,6 +32,16 @@ def load_object_image(img_path:str):
 
 
 def detect_features(image):
+    """
+    Function to detect features 
+    
+    Parameter(s):    image: loaded image
+
+    Returns:        keypoints: keypoints of the image
+                    descriptors:descriptores of the image
+                    orb: orb create
+                    feature_params: parameters of shi-tomasi
+    """
     orb = cv2.ORB_create()
     feature_params = dict(maxCorners=1000, qualityLevel=0.01, minDistance=7, blockSize=7)
     corners = cv2.goodFeaturesToTrack(image, mask=None, **feature_params)
@@ -42,7 +66,15 @@ def parse_user_data()->argparse:
     return args
 
 
-def process_and_display(img_path:str,video_path:str):
+def process_and_display(img_path:str,video_path:str)->None:
+    """
+    Function to process and display 
+    
+    Parameter(s):    img_path: path to the image 
+                    video_path:path to the image
+
+    Returns:        None
+    """
     object_img = load_object_image(img_path)
     vid = load_video(video_path)
     lower_blue = np.array([90, 80, 50])
